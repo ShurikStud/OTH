@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">MobileSklad</string>
+    <string name="main_radioButton_online">online</string>
+    <string name="main_radioButton_offline">offline</string>
+    <string name="main_radioButton_offline_online">offline + online</string>
+    <string name="action_sign_in">start</string>
+    <string name="action_sign_out">exit</string>
+    <string name="prompt_user_name">user name</string>
+    <string name="prompt_email">e-mail</string>
+    <string name="prompt_password">password</string>
+    <string name="activity_main_switch_autologin">autologin</string>
+    <string name="activity_main_switch_autologin_hint">autologin</string>
+    <string name="action_settings">settings</string>
+    <string name="action_scan">scan</string>
+    <string name="action_search">search</string>
+    <string name="activity_scan_desc">scan barcode</string>
+    <string name="activity_settings_desc">visibility settings</string>
+    <string name="activity_login_desc">authorization</string>
+    <string name="container">container</string>
+    <string name="scan_not_found">Result Not Found</string>
+    <string name="scan_exit_message">To exit, press \'back\' again</string>
+    <string name="title_activity_splash">OTH</string>
+    <string name="dummy_content">trunk\n routes</string>
+    <string name="barcode">barcode</string>
+    <string name="enable_counter">enable counter</string>
+    <string name="setting_timeout">timeout</string>
+    <string name="settings_reset">reset setting</string>
+    <string name="settings_reset_message">reset complete</string>
+    <string name="font">font</string>
+    <string name="copied">was copied</string>
+    <string name="press_vol_minus">vol-</string>
+    <string name="mode">mode</string>
+    <string name="zayavkiTEP">zayavki TEP</string>
+    <string-array name="font_id">
+        <item>SMALL</item>
+        <item>NORMAL</item>
+        <item>LARGE</item>
+    </string-array>
+    <string-array name="font_descr">
+        <item>small</item>
+        <item>normal</item>
+        <item>large</item>
+    </string-array>
+    <integer-array name="font_size_name">
+        <item>15</item>
+        <item>22</item>
+        <item>35</item>
+    </integer-array>
+    <integer-array name="font_size_value">
+        <item>25</item>
+        <item>32</item>
+        <item>45</item>
+    </integer-array>
+    <string name="value">value</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="error_incorrect_email">This email is incorrect</string>
+    <string name="offline_container_not_found">OFFLINE\nContainer not found</string>
+    <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
+    <string name="error_autorisation">"При попытке авторизации произошла ошибка"</string>
+</resources>

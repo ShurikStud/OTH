@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorBackgroundLayout">#d4d4d4</color>
+
+    <color name="colorBackgroundVisible">#98cef5</color>
+    <color name="colorBackgroundVisibleCenter">#b5d9f2</color>
+
+    <color name="colorBackgroundVisibleBottom">#84a7c0</color>
+
+
+    <color name="colorBackgroundInvisible">#7C7C7C</color>
+    <color name="colorBackgroundInvisibleCenter">#B4B4B4</color>
+
+    <color name="colorBackgroundSeparator">#40364C</color>
+    <color name="colorBackgroundSeparatorCenter">#505060</color>
+
+    <!--<color name="colorTextEnable">#990044</color>-->
+    <color name="colorTextEnable">#e20f00</color>
+    <color name="colorTextDisable">#505060</color>
+    <color name="colorTextCounter">#02ef02</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+</resources>

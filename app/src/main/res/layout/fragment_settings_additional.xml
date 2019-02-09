@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorBackgroundSeparatorCenter"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="5dp">
+
+        <com.omegaauto.shurik.mobilesklad.view.ProgressButton
+            android:id="@+id/fragment_settings_additional_button_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            style="@style/ButtonStyle"
+            android:text="@string/settings_reset"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_container_row"
+        android:layout_marginVertical="5dp"
+        >
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/fragment_settings_additional_switch_counter"
+        style="@style/TextStyleContainerValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="5"
+        android:text="@string/enable_counter"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="8dp"
+/>
+
+    <EditText
+        android:id="@+id/fragment_settings_additional_editText_counter"
+        style="@style/TextStyleContainerValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="25"
+        android:inputType="numberDecimal"
+        android:text="0"
+        android:gravity="right"
+        android:focusedByDefault="false"
+        android:paddingRight="8dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_container_row"
+        android:layout_marginVertical="5dp">
+
+        <TextView
+            android:id="@+id/fragment_settings_additional_text_view_timeout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_timeout"
+            android:layout_weight="5"
+            style="@style/TextStyleContainerValue"
+            android:paddingLeft="8dp"
+            />
+
+        <EditText
+            android:id="@+id/fragment_settings_additional_editText_timeout"
+            style="@style/TextStyleContainerValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="25"
+            android:inputType="numberDecimal"
+            android:text="0"
+            android:gravity="right"
+            android:focusedByDefault="false"
+            android:paddingRight="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_container_row"
+        android:layout_marginVertical="5dp">
+
+        <TextView
+            android:id="@+id/fragment_settings_additional_text_view_spinner_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/font"
+            style="@style/TextStyleContainerValue"
+            android:paddingLeft="8dp"/>
+
+        <Spinner
+            android:id="@+id/fragment_settings_additional_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            />
+    </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

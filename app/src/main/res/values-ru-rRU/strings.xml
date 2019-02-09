@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MobileSklad</string>
+    <string name="main_radioButton_online">онлайн</string>
+    <string name="main_radioButton_offline">оффлайн</string>
+    <string name="main_radioButton_offline_online">оффлайн + онлайн</string>
+    <string name="action_sign_in">авторизация</string>
+    <string name="prompt_email">e-mail</string>
+    <string name="prompt_password">пароль</string>
+    <string name="activity_main_switch_autologin">автоматическая регистрация</string>
+    <string name="action_settings">настройки</string>
+    <string name="activity_main_switch_autologin_hint">автоматическая регистрация</string>
+    <string name="action_scan">сканировать</string>
+    <string name="action_search">поиск</string>
+    <string name="activity_scan_desc">сканировать ШК</string>
+    <string name="activity_settings_desc">настройки видимости</string>
+    <string name="activity_login_desc">авторизация</string>
+    <string name="container">№ контейнера</string>
+    <string name="scan_not_found">Не найден ШК</string>
+    <string name="dummy_content">магистральные\n маршруты</string>
+    <string name="title_activity_splash">OTH</string>
+    <string name="scan_exit_message">Для выхода из приложения нажмите кнопку \"Назад\" еще раз.</string>
+    <string name="barcode">ШК</string>
+    <string name="enable_counter">использовать счетчик при сканировании камерой</string>
+    <string name="setting_timeout">время ожидания ответа сервера (сек)</string>
+    <string name="settings_reset">сбросить настройки</string>
+    <string name="font">шрифт</string>
+    <string-array name="font_descr">
+        <item>мелкий</item>
+        <item>средний</item>
+        <item>крупный</item>
+    </string-array>
+    <string name="settings_reset_message">установлены настройки по умолчанию</string>
+    <string name="copied">было скопировано</string>
+    <string name="value">значение</string>
+    <string name="press_vol_minus">vol-</string>
+    <string name="mode">режим</string>
+    <string name="zayavkiTEP">заявки ТЭП</string>
+    <string name="error_invalid_email">Формат email неверный</string>
+    <string name="error_invalid_password">Пароль слишком короткий</string>
+    <string name="error_incorrect_password">Неверный пароль</string>
+    <string name="error_incorrect_email">Пользователь с указанным email не зарегистрирован</string>
+    <string name="action_sign_out">выход</string>
+    <string name="prompt_user_name">имя пользователя</string>
+    <string name="offline_container_not_found">OFFLINE\\nКонтейнер не найден</string>
+    <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
+    <string name="error_autorisation">При попытке авторизации произошла ошибка</string>
+</resources>
