@@ -116,9 +116,10 @@ public class ContainerActivity extends AppCompatActivity {
     ContainerPropertiesSettings containerPropertiesSettings;
     ContainerPropertiesAdapter containerPropertiesAdapter;
 
+    ImageView imageLogin;
     ImageView imageNetwork;
     ImageView imageNetworkOffline;
-    ImageView imageLogin;
+    ImageView imageTram;
 
     ImageView imageViewUser; // картинка аватара юзера
     TextView textViewUserName; // имя пользователя
@@ -127,6 +128,7 @@ public class ContainerActivity extends AppCompatActivity {
 
     SwitchCompat onlineSwitch;
     SwitchCompat offlineSwitch;
+    SwitchCompat crossDockFeedbackSwitch;
 
     long lastTimeBackPressed = 0;
 
@@ -176,9 +178,10 @@ public class ContainerActivity extends AppCompatActivity {
 
         //navigationView.setOnClickListener(containerOnClickListener);
 
+        imageLogin = (ImageView) findViewById(R.id.activity_container_image_login);
         imageNetwork = (ImageView) findViewById(R.id.activity_container_image_network);
         imageNetworkOffline = (ImageView) findViewById(R.id.activity_container_image_network_off);
-        imageLogin = (ImageView) findViewById(R.id.activity_container_image_login);
+        imageTram = (ImageView) findViewById(R.id.activity_container_image_tram);
 
         LinearLayout headerLayout = (LinearLayout) navigationView.getHeaderView(0);
 
@@ -220,12 +223,15 @@ public class ContainerActivity extends AppCompatActivity {
                 findItem(R.id.nav_online));
         offlineSwitch = (SwitchCompat) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_offline));
+        crossDockFeedbackSwitch = (SwitchCompat) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.nav_cross_dock_feedback));
 
 //        onlineSwitch.setHintTextColor(getResources().getColor(R.color.colorTextEnable));
 //        onlineSwitch.setTextColor(getResources().getColor(R.color.colorTextEnable));
 
         onlineSwitch.setOnCheckedChangeListener(containerOnCheckedChangeListener);
         offlineSwitch.setOnCheckedChangeListener(containerOnCheckedChangeListener);
+        crossDockFeedbackSwitch.setOnCheckedChangeListener(containerOnCheckedChangeListener);
 
         editTextContainer.setOnKeyListener(containerOnKeyListener);
         textViewContainer.setOnClickListener(containerOnClickListener);
@@ -452,12 +458,14 @@ public class ContainerActivity extends AppCompatActivity {
 
         onlineSwitch.setEnabled(mobileSkladSettings.isAuthorized());
         offlineSwitch.setEnabled(mobileSkladSettings.isAuthorized());
+        crossDockFeedbackSwitch.setEnabled(mobileSkladSettings.isAuthorized());
 
         onlineSwitch.setChecked(mobileSkladSettings.isModeOnline());
         offlineSwitch.setChecked(mobileSkladSettings.isModeOffline());
+        crossDockFeedbackSwitch.setChecked(mobileSkladSettings.isModeCrossDockFeedback());
 
         if (mobileSkladSettings.isAuthorized()) {
-           imageLogin.setImageResource(R.mipmap.account_check_24);
+            imageLogin.setImageResource(R.mipmap.account_check_24);
         } else {
             imageLogin.setImageResource(R.mipmap.account_off_24);
         }
@@ -472,6 +480,12 @@ public class ContainerActivity extends AppCompatActivity {
             imageNetworkOffline.setImageResource(R.mipmap.access_point_network_off_24);
         } else {
             imageNetworkOffline.setImageResource(R.mipmap.access_point_network_off_24_disable);
+        }
+
+        if (mobileSkladSettings.isModeCrossDockFeedback()){
+            imageTram.setImageResource(R.mipmap.outline_tram_blue_24);
+        } else {
+            imageTram.setImageResource(R.mipmap.outline_tram_gray_24);
         }
 
     }
@@ -599,10 +613,10 @@ public class ContainerActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(EnumBarcodeType result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(EnumBarcodeType barcodeType) {
+            super.onPostExecute(barcodeType);
 
-            switch (result) {
+            switch (barcodeType) {
                 case CONTAINER:
                     ParserHttpResponse parser = new ParserHttpResponse();
                     parser.setContainerInfoString(containerInfoString);
@@ -614,7 +628,7 @@ public class ContainerActivity extends AppCompatActivity {
                         lastBarcode = "";
                     }
 
-                    NumberListLast.getInstance().setCurrentNumber(barcode);
+                    NumberListLast.getInstance().setCurrentNumber(barcode); // добавим в верх списока последний введеный номер контейнера
 
                     showContainer();
                     //showProgress(false);
@@ -682,6 +696,34 @@ public class ContainerActivity extends AppCompatActivity {
 
                     if (logisticHttpService.getInfoFromServer(barcode)) {
                         containerInfoString = logisticHttpService.getContainerJson();
+                        if (mobileSkladSettings.isModeOnline() && mobileSkladSettings.isModeCrossDockFeedback()){
+                            // если при получении данных по контейнеру с сервера ошибок не произошло, то в случае, если включены режимы
+                            // онлайн и фиксировать контейнер на КД, выполним еще один http-запрос
+                            if (!logisticHttpService.putContainerCrossDockFeedback(barcode, mobileSkladSettings.getCurrentUser().getToken())){
+                                // если истина - все хорошо, ничего не делаем
+                                // если ложь - отобразим ошибку
+
+                                ErrorType errorType = logisticHttpService.getErrorType();
+                                errorMessage = logisticHttpService.getErrorString();
+
+                                switch (errorType){
+                                    case TIMEOUT:
+                                        barcodeType = EnumBarcodeType.ERROR_TIMEOUT;
+//                                        container.setTimeout();
+                                        break;
+                                    case NO_CONNECTION:
+                                        barcodeType = EnumBarcodeType.ERROR_CONNECTION;
+                                        errorMessage = "Превышено время ожидания (задается в настройках)";
+//                                        container.setNoConnect();
+                                        break;
+                                    case UNKNOWN_ERROR:
+                                        barcodeType = EnumBarcodeType.ERROR_CONNECTION;
+//                                        container.setNoData();
+                                        break;
+                                }
+
+                            }
+                        }
                     } else {
                         containerInfoString = "";
 
@@ -1057,6 +1099,9 @@ public class ContainerActivity extends AppCompatActivity {
             }
             if (compoundButton.getId() == R.id.nav_offline){
                 mobileSkladSettings.setModeOffline(b);
+            }
+            if (compoundButton.getId() == R.id.nav_cross_dock_feedback){
+                mobileSkladSettings.setModeCrossDockFeedback(b);
             }
 
             if ( !(mobileSkladSettings.isModeOnline() || mobileSkladSettings.isModeOffline()) ){

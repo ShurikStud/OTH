@@ -3,6 +3,7 @@
     <string name="main_radioButton_online">online</string>
     <string name="main_radioButton_offline">offline</string>
     <string name="main_radioButton_offline_online">offline + online</string>
+    <string name="main_radioButton_tram">fix KD</string>
     <string name="action_sign_in">start</string>
     <string name="action_sign_out">exit</string>
     <string name="prompt_user_name">user name</string>

@@ -36,6 +36,12 @@
                     android:title="@string/main_radioButton_offline"
                     app:actionViewClass="android.support.v7.widget.SwitchCompat"
                    />
+                <item
+                    android:orderInCategory="2"
+                    android:id="@+id/nav_cross_dock_feedback"
+                    android:title="@string/main_radioButton_tram"
+                    app:actionViewClass="android.support.v7.widget.SwitchCompat"
+                    />
             </menu>
         </item>
     </group>

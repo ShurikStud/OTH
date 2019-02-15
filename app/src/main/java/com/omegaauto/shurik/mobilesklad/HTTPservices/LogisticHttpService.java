@@ -184,30 +184,39 @@ public class LogisticHttpService {
         try {
             Response response = client.newCall(request).execute();
 
-            String jsonText = response.body().string();
+            if (response.code() == 200) {
+                // если http-запрос закончился удачно...
 
-            // данные, которые вернул http-сервис преобразовываем в экземпляр класса ZayavkaTEP_header
-            zayavkaTEP_header = gson.fromJson(jsonText, ZayavkaTEP_header.class);
-            errorString = zayavkaTEP_header.error;
+                String jsonText = response.body().string();
 
-            if (zayavkaTEP_header.result) {
-                ZayavkaTEP zayavkaTEP = new ZayavkaTEP();
-                zayavkaTEP.setNumber(barcode);
-                //zayavkaTEP.setCountNumbers(zayavkaTEP_header.count);
-                zayavkaTEP.setZayavkaTEP_header(zayavkaTEP_header);
-//                for (String numberContainer:zayavkaTEP_header.numbers) {
-//                    String containerJSON = getContainerJson(numberContainer);
-//
-//                }
+                // данные, которые вернул http-сервис преобразовываем в экземпляр класса ZayavkaTEP_header
+                zayavkaTEP_header = gson.fromJson(jsonText, ZayavkaTEP_header.class);
+                errorString = zayavkaTEP_header.error;
 
-                return zayavkaTEP;
-            } else {
-                if (zayavkaTEP_header.errorType.equals("ERROR_TOKEN")){
-                    // не верный токен. необходима повторная авторизация
-                    mobileSkladSettings.getCurrentUser().setDefault();
-                    mobileSkladSettings.setAuthorized(false);
+                if (zayavkaTEP_header.result) {
+                    ZayavkaTEP zayavkaTEP = new ZayavkaTEP();
+                    zayavkaTEP.setNumber(barcode);
+                    //zayavkaTEP.setCountNumbers(zayavkaTEP_header.count);
+                    zayavkaTEP.setZayavkaTEP_header(zayavkaTEP_header);
+    //                for (String numberContainer:zayavkaTEP_header.numbers) {
+    //                    String containerJSON = getContainerJson(numberContainer);
+    //
+    //                }
+
+                    return zayavkaTEP;
+                } else {
+                    if (zayavkaTEP_header.errorType.equals("ERROR_TOKEN")){
+                        // не верный токен. необходима повторная авторизация
+                        mobileSkladSettings.getCurrentUser().setDefault();
+                        mobileSkladSettings.setAuthorized(false);
+                    }
+    //                return null;
+                    return new ZayavkaTEP();
                 }
-//                return null;
+            } else {
+                // ...или неудачно
+                zayavkaTEP_header = null;
+                errorString = response.message();
                 return new ZayavkaTEP();
             }
 
@@ -222,6 +231,61 @@ public class LogisticHttpService {
             zayavkaTEP_header = null;
             //return null;
             return new ZayavkaTEP();
+        }
+    }
+
+    public boolean putContainerCrossDockFeedback(String barcode, String token){
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+        String url = Const.URL_HTTP_SERVICE_1C_LOGISTIC_PUT_CONTAINER;
+
+        BarcodeTokenClass barcodeToken = new BarcodeTokenClass();
+        barcodeToken.barcode = barcode;
+        barcodeToken.token = token;
+
+        Gson gson   = new Gson();
+        String json = gson.toJson(barcodeToken);
+
+        OkHttpClient client = new OkHttpClient();
+
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+
+            if (response.code() == 200) {
+
+                String jsonText = response.body().string();
+
+                // данные, которые вернул http-сервис преобразовываем в экземпляр класса ContainerCrossDockFeedbackClass
+                ContainerCrossDockFeedbackClass containerCrossDockFeedback = gson.fromJson(jsonText, ContainerCrossDockFeedbackClass.class);
+                errorString = containerCrossDockFeedback.error;
+
+                if (containerCrossDockFeedback.result) {
+                    return true;
+                } else {
+                    if (containerCrossDockFeedback.errorType.equals("ERROR_TOKEN")) {
+                        // не верный токен. необходима повторная авторизация
+                        mobileSkladSettings.getCurrentUser().setDefault();
+                        mobileSkladSettings.setAuthorized(false);
+                    }
+                    return false;
+                }
+            } else {
+                errorString = response.message();
+                return false;
+            }
+
+        } catch (IOException e) {
+            //e.printStackTrace();
+            errorString = e.getMessage();
+            return false;
+        } catch (Exception ee){
+            errorString = ee.getMessage();
+            return false;
         }
     }
 
@@ -298,4 +362,9 @@ public class LogisticHttpService {
         String token = "";
     }
 
+    private class ContainerCrossDockFeedbackClass{
+        public Boolean result;
+        public String error;
+        public String errorType;
+    }
 }

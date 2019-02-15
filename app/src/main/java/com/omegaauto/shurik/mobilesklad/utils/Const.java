@@ -13,11 +13,15 @@ public final class Const {
     public static final int colorTextVisible = R.color.colorTextEnable;
     public static final int colorTextInvisible = R.color.colorTextDisable;
 
+
+
 //    public static final String URL_HTTP_SERVICE_1C_LOGISTIC = "http://vb-api.omega-auto.biz:35241/LogisticaGateDev/hs/Services/Methods/ID/";
     public static final String URL_HTTP_SERVICE_1C_LOGISTIC = "http://vb-api.omega-auto.biz:35241/LogisticaGate/hs/Services/Methods/ID/";
     public static final String URL_HTTP_SERVICE_1C_LOGISTIC_LOGIN = "http://194.24.246.71:35248/oth/hs/autorisation/login/";
     public static final String URL_HTTP_SERVICE_1C_LOGISTIC_BARCODE_TYPE = "http://194.24.246.71:35248/oth/hs/data/getType/";
     public static final String URL_HTTP_SERVICE_1C_LOGISTIC_GET_ZAYAVKA = "http://194.24.246.71:35248/oth/hs/data/zayavka/";
+    //public static final String URL_HTTP_SERVICE_1C_LOGISTIC_PUT_CONTAINER = "http://194.24.246.71:35248/oth/hs/data/scanKD/";
+    public static final String URL_HTTP_SERVICE_1C_LOGISTIC_PUT_CONTAINER = "http://194.24.246.71:35248/oth/hs/sendData/scanKD/";
     //public static final String URL_HTTP_SERVICE_1C_LOGISTIC = "http://shurik.asuscomm.com:8080/route/hs/Services/GetContainer/";
     //public static final String URL_HTTP_SERVICE_1C_LOGISTIC = "http://127.0.0.1/route/hs/Services/GetContainer/";
 }
