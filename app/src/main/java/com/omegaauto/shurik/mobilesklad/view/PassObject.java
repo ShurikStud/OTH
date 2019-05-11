@@ -7,12 +7,9 @@ import com.omegaauto.shurik.mobilesklad.container.ContainerPropertiesSettings;
 public class PassObject{
     View view;
     ContainerPropertiesSettings.Property property;
-    //ContainerPropertiesSettings containerPropertiesSettings;
 
     PassObject(View view, ContainerPropertiesSettings.Property property){
-//    PassObject(View view, ContainerPropertiesSettings.Property property, List<ContainerPropertiesSettings.Property> s){
         this.view = view;
         this.property = property;
-        //containerPropertiesSettings = ContainerPropertiesSettings.getInstance();
     }
 }

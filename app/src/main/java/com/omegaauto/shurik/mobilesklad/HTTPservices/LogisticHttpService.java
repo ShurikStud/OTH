@@ -25,6 +25,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -65,22 +67,38 @@ public class LogisticHttpService {
         gson = null;
 
         OkHttpClient client = new OkHttpClient();
+        //Authenticator authenticator = client.authenticator();
+        String credential = Credentials.basic(Const.HTTP_SERVICE_1C_LOGISTIC_LOGIN, Const.HTTP_SERVICE_1C_LOGISTIC_PASSWORD );
+        //authenticator.
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
+                //.addHeader("content-type", "application/json")
+                //.header("Authorization", credential)
                 .post(body)
                 .build();
         try {
             Response response = client.newCall(request).execute();
 
-            String jsonText = response.body().string();
+            if (response.code() == 200) {
+                // если http-запрос закончился удачно...
 
-            // данные, которые вернул http-сервис преобразовываем в значение класса BarcodeTypeError
-            gson = new Gson();
-            BarcodeTypeError result = gson.fromJson(jsonText, BarcodeTypeError.class);
-            errorString = result.error;
-            return result.type;
+                String jsonText = response.body().string();
+
+                // данные, которые вернул http-сервис преобразовываем в значение класса BarcodeTypeError
+                gson = new Gson();
+                BarcodeTypeError result = gson.fromJson(jsonText, BarcodeTypeError.class);
+                errorString = result.error;
+                return result.type;
+
+            } else {
+                // если неудачно
+                tokenError = null;
+                errorString = response.message();
+                return EnumBarcodeType.ERROR;
+            }
+
 
         } catch (ConnectException ce){
             errorString = ce.getMessage();
@@ -159,9 +177,9 @@ public class LogisticHttpService {
         return errorType;
     }
 
-    // отправляет на сервер номер Заявки ТЭП + токен.
-    // получает json со всеми контейнерами этой заявки ТЭП или пустую строку, если заявка не найдена на сервере.
     public ZayavkaTEP getZayavkaTep(String barcode, String token){
+        // отправляет на сервер номер Заявки ТЭП + токен.
+        // получает json со всеми контейнерами этой заявки ТЭП или пустую строку, если заявка не найдена на сервере.
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
@@ -289,10 +307,11 @@ public class LogisticHttpService {
         }
     }
 
-    // попытка авторизации по email и паролю. если успешная - возвращаем истину, иначе - ложь
-    // далее необходимо вызвать метод getTokenError(), который возвращает токен пользователя и возможные ошибки.
-    // его необходимо сохранить в настройках и использовать при любых обращениях к серверу.
     public boolean userLogin(String login, String password){
+        // попытка авторизации по email и паролю. если успешная - возвращаем истину, иначе - ложь
+        // далее необходимо вызвать метод getTokenError(), который возвращает токен пользователя и возможные ошибки.
+        // его необходимо сохранить в настройках и использовать при любых обращениях к серверу.
+
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
         String url = Const.URL_HTTP_SERVICE_1C_LOGISTIC_LOGIN;
@@ -339,8 +358,9 @@ public class LogisticHttpService {
         return tokenError;
     }
 
-    // проверка, что токен, хранимый в настройках привязан к активному пользователю на сервере.
     public boolean isTokenCorrect(String token){
+        // проверка, что токен, хранимый в настройках привязан к активному пользователю на сервере.
+        //TODO доделать
         return false;
     }
 

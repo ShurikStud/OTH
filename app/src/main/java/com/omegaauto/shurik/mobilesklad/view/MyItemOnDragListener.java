@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.omegaauto.shurik.mobilesklad.R;
-import com.omegaauto.shurik.mobilesklad.container.Container;
 import com.omegaauto.shurik.mobilesklad.utils.Const;
 import com.omegaauto.shurik.mobilesklad.container.ContainerPropertiesSettings;
 
 public class MyItemOnDragListener implements View.OnDragListener{
 
+    DrugDropSingleton drugDropSingleton;
     ContainerPropertiesSettings.Property property;
 
     Drawable drawable_visible;
@@ -22,6 +22,7 @@ public class MyItemOnDragListener implements View.OnDragListener{
     Context context;
     private static final int shadowColor = 0x30000000;
 
+
     MyItemOnDragListener(ContainerPropertiesSettings.Property property, Context context){
         this.property = property;
         this.context = context;
@@ -30,6 +31,7 @@ public class MyItemOnDragListener implements View.OnDragListener{
         drawable_invisible = context.getResources().getDrawable(R.drawable.shape_row_invisible);
         drawable_separator = context.getResources().getDrawable(R.drawable.shape_row_separator);
 
+        drugDropSingleton = DrugDropSingleton.getInstance();
     }
 
 
@@ -38,9 +40,19 @@ public class MyItemOnDragListener implements View.OnDragListener{
 
         ContainerPropertiesSettings containerPropertiesSettings = ContainerPropertiesSettings.getInstance();
 
+        PassObject passObj = (PassObject) event.getLocalState();
+        if (passObj != null){
+            // если бысто пытаться изменять порядок строк, то возвращает  null
+            int i = 10;
+            i++;
+        }
+
         switch (event.getAction()) {
 
             case DragEvent.ACTION_DRAG_STARTED:
+                // при начале перетаскивания имеем View v и property
+                // что нам необходимо хранить?
+                //drugDropSingleton.startDrug(v, property);
                 break;
 
             case DragEvent.ACTION_DRAG_ENTERED:
@@ -53,32 +65,61 @@ public class MyItemOnDragListener implements View.OnDragListener{
                 break;
 
             case DragEvent.ACTION_DROP:
-                PassObject passObj = (PassObject) event.getLocalState();
-                if (passObj == null){
-                    // если бысто пытаться изменять порядок строк, то возвращает  null
-                    break;
+//                passObj = (PassObject) event.getLocalState();
+//                if (passObj == null){
+//                    // если бысто пытаться изменять порядок строк, то возвращает  null
+//                    break;
+//                }
+//                View view = passObj.view;
+//                ContainerPropertiesSettings.Property passedProperty = passObj.property;
+//                ListView oldParent = (ListView)view.getParent();
+//                SettingsAdapter srcAdapter = (SettingsAdapter) (oldParent.getAdapter());
+//
+//                int removeLocation = containerPropertiesSettings.getIndex(passedProperty);
+//                int insertLocation = containerPropertiesSettings.getIndex(property);
+//
+//                /*
+//                 * If drag and drop on the same list, same position,
+//                 * ignore
+//                 */
+//                if(removeLocation != insertLocation){
+//
+//                    containerPropertiesSettings.movePropertyTo(insertLocation, passedProperty);
+//                    srcAdapter.notifyDataSetChanged();
+//                    v.getParent();
+//                }
+//
+//                int index_drop = containerPropertiesSettings.getIndex(property);
+//                setBackground(v, index_drop);
+//                break;
+
+                // используем "костыль" через синглтон
+                if (drugDropSingleton.isBeginDrug()){
+                    // если перетягивание начиналось, то все в порядке.
+                    View view = drugDropSingleton.getView();
+                    ContainerPropertiesSettings.Property passedProperty = drugDropSingleton.getProperty();
+                    ListView oldParent = (ListView)view.getParent();
+                    SettingsAdapter srcAdapter = (SettingsAdapter) (oldParent.getAdapter());
+
+                    int removeLocation = containerPropertiesSettings.getIndex(passedProperty);
+                    int insertLocation = containerPropertiesSettings.getIndex(property);
+
+                    /*
+                     * If drag and drop on the same list, same position,
+                     * ignore
+                     */
+                    if(removeLocation != insertLocation){
+
+                        containerPropertiesSettings.movePropertyTo(insertLocation, passedProperty);
+                        srcAdapter.notifyDataSetChanged();
+                        v.getParent();
+                    }
+
+                    int index_drop = containerPropertiesSettings.getIndex(property);
+                    setBackground(v, index_drop);
+                    drugDropSingleton.stopDrug();
                 }
-                View view = passObj.view;
-                ContainerPropertiesSettings.Property passedProperty = passObj.property;
-                ListView oldParent = (ListView)view.getParent();
-                SettingsAdapter srcAdapter = (SettingsAdapter) (oldParent.getAdapter());
 
-                int removeLocation = containerPropertiesSettings.getIndex(passedProperty);
-                int insertLocation = containerPropertiesSettings.getIndex(property);
-
-                /*
-                 * If drag and drop on the same list, same position,
-                 * ignore
-                 */
-                if(removeLocation != insertLocation){
-
-                    containerPropertiesSettings.movePropertyTo(insertLocation, passedProperty);
-                    srcAdapter.notifyDataSetChanged();
-                    v.getParent();
-                }
-
-                int index_drop = containerPropertiesSettings.getIndex(property);
-                setBackground(v, index_drop);
                 break;
 
             case DragEvent.ACTION_DRAG_ENDED:
@@ -106,6 +147,7 @@ public class MyItemOnDragListener implements View.OnDragListener{
         } else {
             view.setBackgroundResource(R.drawable.shape_row_invisible);
         }
+        view.invalidate();
 
     }
 

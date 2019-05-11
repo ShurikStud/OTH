@@ -81,6 +81,8 @@ public class ParserHttpResponse {
                     container.setDriver_name(jsonObjectData.getString("driver_name"));
                 if (jsonObjectData.has("amount_goods"))
                     container.setAmount_goods(jsonObjectData.getString("amount_goods"));
+                if (jsonObjectData.has("sum_amount_cont"))
+                    container.setSum_amount_cont(jsonObjectData.getString("sum_amount_cont"));
                 if (jsonObjectData.has("amount_goodsTotal"))
                     container.setAmount_goodsTotal(jsonObjectData.getString("amount_goodsTotal"));
                 if (jsonObjectData.has("partner_address"))

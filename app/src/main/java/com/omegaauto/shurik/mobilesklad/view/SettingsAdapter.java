@@ -104,9 +104,17 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView icon;
+        //ImageView icon;
         TextView text;
         ImageButton button;
+
+        @Override
+        public String toString() {
+            return "ViewHolder{" +
+                    "text=" + text.getText() +
+                    ", button=" + button.toString() +
+                    '}';
+        }
     }
 
 
@@ -123,11 +131,19 @@ public class SettingsAdapter extends BaseAdapter {
         public boolean onTouch(View v, MotionEvent event) {
             ConstraintLayout view = (ConstraintLayout) v.getParent();
 
+            // Get view object tag value.
+            String tag = view.getTag().toString();
+            // Create clip data.
+            ClipData clipData = ClipData.newPlainText("", tag);
+
             PassObject passObj = new PassObject(view, property);
 
-            ClipData data = ClipData.newPlainText("", "");
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            view.startDrag(data, shadowBuilder, passObj, 0);
+            //View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+            view.startDrag(clipData, shadowBuilder, passObj, 0);
+//            view.startDrag(clipData, shadowBuilder, view, 0);
+
+            DrugDropSingleton.getInstance().startDrug((View)(v.getParent()), property);
             return false;
         }
     }
