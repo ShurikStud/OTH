@@ -10,6 +10,21 @@ import java.lang.reflect.Method;
 
 public class Container {
 
+    /*
+        Для добавления нового отображаемого поля необходимо:
+        1) добавить свойство в классе Container (тип - String)
+        2) добавить get-ер и set-ер в классе Container
+        3) в методе setAllProperties добавить установку значения нового свойства
+        4) в методе copy() реализовать копирование свойства из основания
+        5) в методе toString() реализовать вывод значения нового свойства
+        6) в классе ContainerPropertiesSettings в методе initDefault() необходимо добавить новое свойство,
+            если оно требует отображения отображения. Важно: свойство name класса Property должно совпадать
+            с методом get-ера, но без приставки 'get'
+        7) в классе ParserHttpResponse в методе getContainerInfo() дабавить запись значения нового свойства,
+            если оно вернулось с сервера
+     */
+
+
     String driver_name; // ФИО водителя
     String vehicle_name; //№ транспортного средства)
 
@@ -30,6 +45,7 @@ public class Container {
 
     String amount_goods; // (Количество грузов)
     String amount_goodsTotal; // (Количество грузов) общее количество
+    String sum_amount_cont; // (Количество единиц товара в контейнере)
 
     String number; // (Номер тарного места)
     String containersTotal; // общее число контейнеров на клиента
@@ -205,6 +221,10 @@ public class Container {
         return amount_goods + " / " + amount_goodsTotal;
     }
 
+    public String getSum_amount_cont() {
+        return sum_amount_cont;
+    }
+
     public void setAmount_goods(String amount_goods) {
         this.amount_goods = amount_goods;
     }
@@ -249,6 +269,10 @@ public class Container {
         this.amount_goodsTotal = amount_goodsTotal;
     }
 
+    public void setSum_amount_cont(String sum_amount_cont) {
+        this.sum_amount_cont = sum_amount_cont;
+    }
+
     public void setVolumeTotal(String volumeTotal) {
         this.volumeTotal = volumeTotal;
     }
@@ -282,6 +306,7 @@ public class Container {
 
         amount_goods = value;
         amount_goodsTotal = value;
+        sum_amount_cont = value;
 
         number = value;
         containersTotal = value;
@@ -322,6 +347,7 @@ public class Container {
         containerCopy.setPartner_address(this.partner_address);
         containerCopy.setPartner_name(this.partner_name);
         containerCopy.setPartner_phone(this.partner_phone);
+        containerCopy.setSum_amount_cont(this.sum_amount_cont);
         containerCopy.setTrip_number(this.trip_number);
         containerCopy.setType_pack(this.type_pack);
         containerCopy.setVehicle_name(this.vehicle_name);

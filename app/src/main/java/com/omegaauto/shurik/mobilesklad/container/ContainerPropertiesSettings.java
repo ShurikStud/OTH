@@ -12,7 +12,7 @@ public final class ContainerPropertiesSettings {
     // класс настроек порядка и видимости реквизитов КОНТЕЙНЕРа (Container)
     // Элемент в позиции 0 содержит последний номер контейнера, который искали.
 
-    private static final int PROPERTIES_VERSION = 11;
+    private static final int PROPERTIES_VERSION = 13;
     int current_version;
 
     //private List<OnSettingsContainerRedoListener> observers; // слушатели
@@ -82,6 +82,7 @@ public final class ContainerPropertiesSettings {
         properties.add(new Property("Type_pack", "Тип упаковки", null));
         properties.add(new Property("Weight", "Вес, кг.", "/"));
         properties.add(new Property("Amount_goods", "Количество грузов", "/"));
+        properties.add(new Property("Sum_amount_cont", "Кол-во ед. товара в контейнере", null));
         properties.add(new Property("Number", "№ тарного места", "из"));
         properties.add(new Property("Volume", "Объем тарного места, л.", "/"));
         //separator = properties.size();

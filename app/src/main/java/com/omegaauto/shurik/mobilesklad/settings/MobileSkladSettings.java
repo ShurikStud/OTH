@@ -6,6 +6,7 @@ import com.omegaauto.shurik.mobilesklad.zayavkaTEP.ZayavkaTEPList;
 
 public final class MobileSkladSettings {
 
+    // При изменении реквизитного состава необходимо изменить (увеличить значение) версию.
     private static final int PROPERTIES_VERSION = 4;
 
     private static MobileSkladSettings instance;
@@ -14,11 +15,13 @@ public final class MobileSkladSettings {
     private Boolean isCounterEnable = false;
     private MobileSkladFontSize fontSize;
     private int timeout = 0;
+    private int quantityZayavkaTEP = 4; // количество загружаемых заявок ТЭП
     private MobileSkladUser currentUser;
 
     boolean authorized; // если истина - пользователь авторизирован, если ложь - не авторизирован.
-    boolean modeOnline = true; //
-    boolean modeOffline = false;
+    boolean modeOnline = true; // режим работы online
+    boolean modeOffline = false; // режим работы offline
+    boolean modeCrossDockFeedback = false; // отправлять обратную связь при сканировании на КД.
 
     int current_version;
 
@@ -68,10 +71,12 @@ public final class MobileSkladSettings {
         counter = 0;
         timeout = 10;
         fontSize = ListFontSizes.getInstance().get("NORMAL");
+        quantityZayavkaTEP = 4;
         currentUser.setDefault();
         authorized = false;
         modeOnline = true;
         modeOffline = false;
+        modeCrossDockFeedback = false;
         setCurrentVersion();
     }
 
@@ -113,6 +118,7 @@ public final class MobileSkladSettings {
         setAuthorized(input.isAuthorized());
         setModeOnline(input.isModeOnline());
         setModeOffline(input.isModeOffline());
+        setModeCrossDockFeedback(input.isModeCrossDockFeedback());
     }
 
     private void setCurrentVersion(){
@@ -152,5 +158,21 @@ public final class MobileSkladSettings {
 
     public void setModeOffline(boolean modeOffline) {
         this.modeOffline = modeOffline;
+    }
+
+    public boolean isModeCrossDockFeedback() {
+        return modeCrossDockFeedback;
+    }
+
+    public void setModeCrossDockFeedback(boolean modeCrossDockFeedback) {
+        this.modeCrossDockFeedback = modeCrossDockFeedback;
+    }
+
+    public int getQuantityZayavkaTEP() {
+        return quantityZayavkaTEP;
+    }
+
+    public void setQuantityZayavkaTEP(int quantityZayavkaTEP) {
+        this.quantityZayavkaTEP = quantityZayavkaTEP;
     }
 }

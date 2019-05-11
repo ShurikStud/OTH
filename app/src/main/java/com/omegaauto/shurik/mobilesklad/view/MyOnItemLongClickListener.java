@@ -1,6 +1,7 @@
 package com.omegaauto.shurik.mobilesklad.view;
 
 import android.content.ClipData;
+import android.os.Build;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -25,7 +26,12 @@ public class MyOnItemLongClickListener implements AdapterView.OnItemLongClickLis
 
             ClipData data = ClipData.newPlainText("", "");
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            view.startDrag(data, shadowBuilder, passObj, 0);
+//            view.startDrag(data, shadowBuilder, passObj, 0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                view.startDragAndDrop(data, shadowBuilder, passObj, 0);
+            } else {
+                view.startDrag(data, shadowBuilder, passObj, 0);
+            }
         }
         return true;
     }

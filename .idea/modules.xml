@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MobileSklad.iml" filepath="$PROJECT_DIR$/MobileSklad.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OTH.iml" filepath="$PROJECT_DIR$/OTH.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

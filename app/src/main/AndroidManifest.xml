@@ -36,9 +36,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing" />
         <activity
-            android:name=".SettingsContainerFragment"
-            android:label="@string/activity_settings_desc" />
-        <activity
             android:name=".SettingsPagersActivity"
             android:label="@string/activity_settings_desc"
             android:screenOrientation="portrait" />

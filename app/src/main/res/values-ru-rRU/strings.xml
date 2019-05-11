@@ -45,4 +45,5 @@
     <string name="offline_container_not_found">OFFLINE\\nКонтейнер не найден</string>
     <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
     <string name="error_autorisation">При попытке авторизации произошла ошибка</string>
+    <string name="main_radioButton_tram">фиксировать КД</string>
 </resources>

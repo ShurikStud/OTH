@@ -43,7 +43,7 @@ public class SettingsContainerFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.activity_settings_list_view);
 
         settingsAdapter = new SettingsAdapter(this.getContext());
-        settingsAdapter.notifyDataSetChanged();
+        //settingsAdapter.notifyDataSetChanged();
 
         listView.setAdapter(settingsAdapter);
         listView.setOnDragListener(myOnDragListener);
