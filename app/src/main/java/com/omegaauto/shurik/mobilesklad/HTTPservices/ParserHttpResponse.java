@@ -1,9 +1,14 @@
 package com.omegaauto.shurik.mobilesklad.HTTPservices;
 
+import com.omegaauto.shurik.mobilesklad.annotations.AnnoNL;
+import com.omegaauto.shurik.mobilesklad.annotations.AnnoProperty;
 import com.omegaauto.shurik.mobilesklad.container.Container;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.util.Iterator;
 
 public class ParserHttpResponse {
 
@@ -57,54 +62,26 @@ public class ParserHttpResponse {
                 return container;
             } else if (statusDescription.equals("OK")) {
 
-                if (jsonObjectData.has("vehicle_name"))
-                    container.setVehicle_name(jsonObjectData.getString("vehicle_name"));
-                //            if (jsonObjectData.has("trip_number"))
-                //            container.setTrip_number(jsonObjectData.getString("trip_number"));
-                if (jsonObjectData.has("IdTMS"))
-                    container.setTrip_number(jsonObjectData.getString("IdTMS"));
-                if (jsonObjectData.has("zayavkaTEP_number"))
-                    container.setZayavkaTEP_number(jsonObjectData.getString("zayavkaTEP_number"));
-                if (jsonObjectData.has("partner_name"))
-                    container.setPartner_name(jsonObjectData.getString("partner_name"));
-                if (jsonObjectData.has("number"))
-                    container.setNumber(jsonObjectData.getString("number"));
-                if (jsonObjectData.has("containersTotal"))
-                    container.setContainersTotal(jsonObjectData.getString("containersTotal"));
-                if (jsonObjectData.has("nn"))
-                    container.setNn(jsonObjectData.getString("nn"));
-                if (jsonObjectData.has("nnMax"))
-                    container.setNnMax(jsonObjectData.getString("nnMax"));
-                if (jsonObjectData.has("invoice_numbers"))
-                    container.setInvoice_numbers(jsonObjectData.getString("invoice_numbers"));
-                if (jsonObjectData.has("driver_name"))
-                    container.setDriver_name(jsonObjectData.getString("driver_name"));
-                if (jsonObjectData.has("amount_goods"))
-                    container.setAmount_goods(jsonObjectData.getString("amount_goods"));
-                if (jsonObjectData.has("sum_amount_cont"))
-                    container.setSum_amount_cont(jsonObjectData.getString("sum_amount_cont"));
-                if (jsonObjectData.has("amount_goodsTotal"))
-                    container.setAmount_goodsTotal(jsonObjectData.getString("amount_goodsTotal"));
-                if (jsonObjectData.has("partner_address"))
-                    container.setPartner_address(jsonObjectData.getString("partner_address"));
-                if (jsonObjectData.has("partner_phone"))
-                    container.setPartner_phone(jsonObjectData.getString("partner_phone"));
-                if (jsonObjectData.has("type_pack"))
-                    container.setType_pack(jsonObjectData.getString("type_pack"));
-                if (jsonObjectData.has("volume"))
-                    container.setVolume(jsonObjectData.getString("volume"));
-                if (jsonObjectData.has("volumeTotal"))
-                    container.setVolumeTotal(jsonObjectData.getString("volumeTotal"));
-                if (jsonObjectData.has("weight"))
-                    container.setWeight(jsonObjectData.getString("weight"));
-                if (jsonObjectData.has("weightTotal"))
-                    container.setWeightTotal(jsonObjectData.getString("weightTotal"));
-                if (jsonObjectData.has("zayavkaTEP_highway_date"))
-                    container.setZayavkaTEP_highway_date(jsonObjectData.getString("zayavkaTEP_highway_date"));
-                if (jsonObjectData.has("zayavkaTEP_highway_number"))
-                    container.setZayavkaTEP_highway_number(jsonObjectData.getString("zayavkaTEP_highway_number"));
-                if (jsonObjectData.has("RouteName"))
-                    container.setRoute_name(jsonObjectData.getString("RouteName"));
+                Class classContainer = container.getClass();
+
+                for (Field field : classContainer.getDeclaredFields()) {
+                    AnnoProperty propertyAnno = (AnnoProperty) field.getAnnotation(AnnoProperty.class);
+                    //AnnoNL newLine = field.getAnnotation(AnnoNL.class);
+                    if (propertyAnno != null) {
+                        try {
+                            String fieldName = field.getName();
+                            if (!propertyAnno.apiName().isEmpty()){
+                                fieldName = propertyAnno.apiName();
+                            }
+                            if (jsonObjectData.has(fieldName)){
+                                field.set(container, jsonObjectData.getString(fieldName));
+                            }
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                container.setNL();
 
                 return container;
             } else {

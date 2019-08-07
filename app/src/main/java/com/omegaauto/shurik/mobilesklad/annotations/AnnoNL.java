@@ -8,4 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AnnoNL {
+    char separator() default (','); // символ-разделитель который необходимо заменять на перевод строки
 }

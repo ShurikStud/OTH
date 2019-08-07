@@ -16,16 +16,16 @@ public class Container {
 
     /*
         Для добавления нового отображаемого поля необходимо:
-        1) добавить свойство в классе Container (тип - String)
-        2) добавить get-ер и set-ер в классе Container
-        3) в методе setAllProperties добавить установку значения нового свойства
-        4) в методе copy() реализовать копирование свойства из основания
+        1) добавить свойство в классе Container (тип - String, использовать аннотацию @AnnoProperty и при необходимости @AnnoNL)
+        2) добавить get-ер и set-ер в классе Container (только set-еры, get-ер не актуально - аннотация)
+        3) в методе setAllProperties добавить установку значения нового свойства (не актуально - аннотация)
+        4) в методе copy() реализовать копирование свойства из основания (не актуально - аннотация)
         5) в методе toString() реализовать вывод значения нового свойства
         6) в классе ContainerPropertiesSettings в методе initDefault() необходимо добавить новое свойство,
             если оно требует отображения отображения. Важно: свойство name класса Property должно совпадать
-            с методом get-ера, но без приставки 'get'
+            с методом get-ера, но без приставки 'get'. Важно2: значение PROPERTIES_VERSION необходимо увеличить +1
         7) в классе ParserHttpResponse в методе getContainerInfo() дабавить запись значения нового свойства,
-            если оно вернулось с сервера
+            если оно вернулось с сервера (не актуально - аннотация)
      */
 
 
@@ -40,9 +40,9 @@ public class Container {
     String zayavkaTEP_highway_number; // (№ Заявки ТЭП магистральной)
     @AnnoProperty
     String zayavkaTEP_number; // (№ Заявки ТЭП подчиненной)
-    @AnnoProperty
+    @AnnoProperty(apiName = "RouteName")
     String route_name; // Наименование маршрута
-    @AnnoProperty
+    @AnnoProperty(apiName = "IdTMS")
     String trip_number = ""; // (№ рейса)
     @AnnoProperty
     String nn; // (№ по порядку в карте погрузки)
@@ -50,16 +50,16 @@ public class Container {
     String nnMax; // (№ по порядку в карте погрузки)
 
     @AnnoProperty
-    @AnnoNL
+    @AnnoNL(separator = ';')
     String partner_address; // (Адрес доставки (Строка))
     @AnnoProperty
     String partner_name; // (Наименование контрагента)
 
     @AnnoProperty
-    @AnnoNL
+    @AnnoNL(separator = ',')
     String partner_phone; // (Тел. Номера контрагента)
 
-    @AnnoNL
+    @AnnoNL(separator = ',')
     @AnnoProperty
     String invoice_numbers; // (Номера РН )
     @AnnoProperty
@@ -356,6 +356,25 @@ public class Container {
         setAllProperties(errorString);
     }
 
+    public void setNL(){
+        // производится замена символов, определенных в аннотации AnnoNL на перевод строки во всех полях класса, которые помечены аннотацией AnnoProperty
+        Class currentClass = this.getClass();
+
+        for (Field field: currentClass.getFields()) {
+            AnnoProperty propertyAnno = field.getAnnotation(AnnoProperty.class);
+            AnnoNL newLine = field.getAnnotation(AnnoNL.class);
+            try {
+                    if (propertyAnno != null && newLine != null) {
+                        String currentValue = (String) field.get(this);
+                        currentValue = convertToNL(currentValue, newLine.separator());
+                        field.set(this, currentValue);
+                    }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public Container copy(){
         Container containerCopy = new Container();
 
@@ -363,40 +382,17 @@ public class Container {
 
         for (Field field: currentClass.getFields()) {
             AnnoProperty property = field.getAnnotation(AnnoProperty.class);
-            AnnoNL newLine = field.getAnnotation(AnnoNL.class);
 
             try {
                 if (property != null) {
-                    field.set(containerCopy, (String) field.get(this));
+                    String currentValue = (String) field.get(this);
+                    field.set(containerCopy, currentValue);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
         }
-
-//        containerCopy.setAmount_goods(this.amount_goods);
-//        containerCopy.setAmount_goodsTotal(this.amount_goodsTotal);
-//        containerCopy.setContainersTotal(this.containersTotal);
-//        containerCopy.setDriver_name(this.driver_name);
-//        containerCopy.setInvoice_numbers(this.invoice_numbers);
-//        containerCopy.setNn(this.nn);
-//        containerCopy.setNnMax(this.nnMax);
-//        containerCopy.setNumber(this.number);
-//        containerCopy.setPartner_address(this.partner_address);
-//        containerCopy.setPartner_name(this.partner_name);
-//        containerCopy.setPartner_phone(this.partner_phone);
-//        containerCopy.setSum_amount_cont(this.sum_amount_cont);
-//        containerCopy.setTrip_number(this.trip_number);
-//        containerCopy.setType_pack(this.type_pack);
-//        containerCopy.setVehicle_name(this.vehicle_name);
-//        containerCopy.setVolume(this.volume);
-//        containerCopy.setVolumeTotal(this.volumeTotal);
-//        containerCopy.setWeight(this.weight);
-//        containerCopy.setWeightTotal(this.weightTotal);
-//        containerCopy.setZayavkaTEP_highway_date(this.zayavkaTEP_highway_date);
-//        containerCopy.setZayavkaTEP_highway_number(this.zayavkaTEP_highway_number);
-//        containerCopy.setZayavkaTEP_number(this.zayavkaTEP_number);
+        setNL();
 
         return containerCopy;
     }
