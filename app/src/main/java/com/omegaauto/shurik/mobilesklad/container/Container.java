@@ -5,6 +5,9 @@
 
 package com.omegaauto.shurik.mobilesklad.container;
 
+import com.omegaauto.shurik.mobilesklad.annotations.AnnoProperty;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -25,31 +28,54 @@ public class Container {
      */
 
 
+    @AnnoProperty
     String driver_name; // ФИО водителя
+    @AnnoProperty
     String vehicle_name; //№ транспортного средства)
 
+    @AnnoProperty
     String zayavkaTEP_highway_date; // (Дата Заявки ТЭП магистральной)
+    @AnnoProperty
     String zayavkaTEP_highway_number; // (№ Заявки ТЭП магистральной)
+    @AnnoProperty
     String zayavkaTEP_number; // (№ Заявки ТЭП подчиненной)
+    @AnnoProperty
     String route_name; // Наименование маршрута
+    @AnnoProperty
     String trip_number = ""; // (№ рейса)
+    @AnnoProperty
     String nn; // (№ по порядку в карте погрузки)
+    @AnnoProperty
     String nnMax; // (№ по порядку в карте погрузки)
+    @AnnoProperty
     String partner_address; // (Адрес доставки (Строка))
+    @AnnoProperty
     String partner_name; // (Наименование контрагента)
+    @AnnoProperty
     String partner_phone; // (Тел. Номера контрагента)
+    @AnnoProperty
     String invoice_numbers; // (Номера РН )
+    @AnnoProperty
     String type_pack; // (Тип упаковки)
+    @AnnoProperty
     String weight; // (Вес, кг.)
+    @AnnoProperty
     String weightTotal; // (Вес, кг.) общий вес
 
+    @AnnoProperty
     String amount_goods; // (Количество грузов)
+    @AnnoProperty
     String amount_goodsTotal; // (Количество грузов) общее количество
+    @AnnoProperty
     String sum_amount_cont; // (Количество единиц товара в контейнере)
 
+    @AnnoProperty
     String number; // (Номер тарного места)
+    @AnnoProperty
     String containersTotal; // общее число контейнеров на клиента
+    @AnnoProperty
     String volume; // (Объем ТарногоМеста)
+    @AnnoProperty
     String volumeTotal; // (Объем ТарногоМеста) общий объем
 
 //    @ColorInt int colorMaster;
@@ -286,32 +312,21 @@ public class Container {
     }
 
     private void setAllProperties(String value){
-        driver_name = value;
-        vehicle_name = value;
 
-        zayavkaTEP_highway_date = value;
-        zayavkaTEP_highway_number = value;
-        zayavkaTEP_number = value;
-        route_name = value;
-        trip_number = value;
-        nn = value;
-        nnMax = value;
-        partner_address = value;
-        partner_name = value;
-        partner_phone = value;
-        invoice_numbers = value;
-        type_pack = value;
-        weight = value;
-        weightTotal = value;
+        Class currentClass = getClass();
 
-        amount_goods = value;
-        amount_goodsTotal = value;
-        sum_amount_cont = value;
+        for (Field field : currentClass.getDeclaredFields()) {
+            AnnoProperty property = (AnnoProperty) field.getAnnotation(AnnoProperty.class);
+            if (property != null) {
+                try {
+                    field.set(this, value); ;
+                    //s = (String) method.invoke(object);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-        number = value;
-        containersTotal = value;
-        volume = value;
-        volumeTotal = value;
     }
 
     public void setNoData(){
