@@ -5,6 +5,7 @@
 
 package com.omegaauto.shurik.mobilesklad.container;
 
+import com.omegaauto.shurik.mobilesklad.annotations.AnnoNL;
 import com.omegaauto.shurik.mobilesklad.annotations.AnnoProperty;
 
 import java.lang.reflect.Field;
@@ -47,12 +48,18 @@ public class Container {
     String nn; // (№ по порядку в карте погрузки)
     @AnnoProperty
     String nnMax; // (№ по порядку в карте погрузки)
+
     @AnnoProperty
+    @AnnoNL
     String partner_address; // (Адрес доставки (Строка))
     @AnnoProperty
     String partner_name; // (Наименование контрагента)
+
     @AnnoProperty
+    @AnnoNL
     String partner_phone; // (Тел. Номера контрагента)
+
+    @AnnoNL
     @AnnoProperty
     String invoice_numbers; // (Номера РН )
     @AnnoProperty
@@ -351,28 +358,45 @@ public class Container {
 
     public Container copy(){
         Container containerCopy = new Container();
-        containerCopy.setAmount_goods(this.amount_goods);
-        containerCopy.setAmount_goodsTotal(this.amount_goodsTotal);
-        containerCopy.setContainersTotal(this.containersTotal);
-        containerCopy.setDriver_name(this.driver_name);
-        containerCopy.setInvoice_numbers(this.invoice_numbers);
-        containerCopy.setNn(this.nn);
-        containerCopy.setNnMax(this.nnMax);
-        containerCopy.setNumber(this.number);
-        containerCopy.setPartner_address(this.partner_address);
-        containerCopy.setPartner_name(this.partner_name);
-        containerCopy.setPartner_phone(this.partner_phone);
-        containerCopy.setSum_amount_cont(this.sum_amount_cont);
-        containerCopy.setTrip_number(this.trip_number);
-        containerCopy.setType_pack(this.type_pack);
-        containerCopy.setVehicle_name(this.vehicle_name);
-        containerCopy.setVolume(this.volume);
-        containerCopy.setVolumeTotal(this.volumeTotal);
-        containerCopy.setWeight(this.weight);
-        containerCopy.setWeightTotal(this.weightTotal);
-        containerCopy.setZayavkaTEP_highway_date(this.zayavkaTEP_highway_date);
-        containerCopy.setZayavkaTEP_highway_number(this.zayavkaTEP_highway_number);
-        containerCopy.setZayavkaTEP_number(this.zayavkaTEP_number);
+
+        Class currentClass = this.getClass();
+
+        for (Field field: currentClass.getFields()) {
+            AnnoProperty property = field.getAnnotation(AnnoProperty.class);
+            AnnoNL newLine = field.getAnnotation(AnnoNL.class);
+
+            try {
+                if (property != null) {
+                    field.set(containerCopy, (String) field.get(this));
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+//        containerCopy.setAmount_goods(this.amount_goods);
+//        containerCopy.setAmount_goodsTotal(this.amount_goodsTotal);
+//        containerCopy.setContainersTotal(this.containersTotal);
+//        containerCopy.setDriver_name(this.driver_name);
+//        containerCopy.setInvoice_numbers(this.invoice_numbers);
+//        containerCopy.setNn(this.nn);
+//        containerCopy.setNnMax(this.nnMax);
+//        containerCopy.setNumber(this.number);
+//        containerCopy.setPartner_address(this.partner_address);
+//        containerCopy.setPartner_name(this.partner_name);
+//        containerCopy.setPartner_phone(this.partner_phone);
+//        containerCopy.setSum_amount_cont(this.sum_amount_cont);
+//        containerCopy.setTrip_number(this.trip_number);
+//        containerCopy.setType_pack(this.type_pack);
+//        containerCopy.setVehicle_name(this.vehicle_name);
+//        containerCopy.setVolume(this.volume);
+//        containerCopy.setVolumeTotal(this.volumeTotal);
+//        containerCopy.setWeight(this.weight);
+//        containerCopy.setWeightTotal(this.weightTotal);
+//        containerCopy.setZayavkaTEP_highway_date(this.zayavkaTEP_highway_date);
+//        containerCopy.setZayavkaTEP_highway_number(this.zayavkaTEP_highway_number);
+//        containerCopy.setZayavkaTEP_number(this.zayavkaTEP_number);
 
         return containerCopy;
     }
