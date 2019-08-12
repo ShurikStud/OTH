@@ -55,15 +55,19 @@
     <string name="value">value</string>
     <string name="title_activity_login">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
+
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_incorrect_email">This email is incorrect</string>
+    <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
+    <string name="error_autorisation">"При попытке авторизации произошла ошибка"</string>
+    <string name="error_timeout">Connection timeout</string>
+
+
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="error_incorrect_email">This email is incorrect</string>
     <string name="offline_container_not_found">OFFLINE\nContainer not found</string>
-    <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
-    <string name="error_autorisation">"При попытке авторизации произошла ошибка"</string>
 </resources>

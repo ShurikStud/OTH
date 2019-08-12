@@ -31,27 +31,38 @@ public class Container {
 
     @AnnoProperty
     String driver_name; // ФИО водителя
+
     @AnnoProperty
     String vehicle_name; //№ транспортного средства)
 
     @AnnoProperty
     String zayavkaTEP_highway_date; // (Дата Заявки ТЭП магистральной)
+
     @AnnoProperty
     String zayavkaTEP_highway_number; // (№ Заявки ТЭП магистральной)
+
     @AnnoProperty
     String zayavkaTEP_number; // (№ Заявки ТЭП подчиненной)
+
     @AnnoProperty(apiName = "RouteName")
     String route_name; // Наименование маршрута
+
+    @AnnoProperty(apiName = "RouteContinueName")
+    String route_continue_name; // Наименование маршрута продолжения
+
     @AnnoProperty(apiName = "IdTMS")
     String trip_number = ""; // (№ рейса)
+
     @AnnoProperty
     String nn; // (№ по порядку в карте погрузки)
+
     @AnnoProperty
     String nnMax; // (№ по порядку в карте погрузки)
 
     @AnnoProperty
     @AnnoNL(separator = ';')
     String partner_address; // (Адрес доставки (Строка))
+
     @AnnoProperty
     String partner_name; // (Наименование контрагента)
 
@@ -62,26 +73,34 @@ public class Container {
     @AnnoNL(separator = ',')
     @AnnoProperty
     String invoice_numbers; // (Номера РН )
+
     @AnnoProperty
     String type_pack; // (Тип упаковки)
+
     @AnnoProperty
     String weight; // (Вес, кг.)
+
     @AnnoProperty
     String weightTotal; // (Вес, кг.) общий вес
 
     @AnnoProperty
     String amount_goods; // (Количество грузов)
+
     @AnnoProperty
     String amount_goodsTotal; // (Количество грузов) общее количество
+
     @AnnoProperty
     String sum_amount_cont; // (Количество единиц товара в контейнере)
 
     @AnnoProperty
     String number; // (Номер тарного места)
+
     @AnnoProperty
     String containersTotal; // общее число контейнеров на клиента
+
     @AnnoProperty
     String volume; // (Объем ТарногоМеста)
+
     @AnnoProperty
     String volumeTotal; // (Объем ТарногоМеста) общий объем
 
@@ -165,12 +184,16 @@ public class Container {
         this.zayavkaTEP_number = zayavkaTEP_number;
     }
 
-    public String getRoute_name() {
-        return route_name;
+    public String getRouteContinue_name() {
+        return route_continue_name;
     }
 
     public void setRoute_name(String route_name) {
         this.route_name = route_name;
+    }
+
+    public String getRoute_name() {
+        return route_name;
     }
 
     public String getTrip_number() {

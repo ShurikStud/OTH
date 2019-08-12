@@ -36,14 +36,17 @@
     <string name="press_vol_minus">vol-</string>
     <string name="mode">режим</string>
     <string name="zayavkiTEP">заявки ТЭП</string>
+
     <string name="error_invalid_email">Формат email неверный</string>
     <string name="error_invalid_password">Пароль слишком короткий</string>
     <string name="error_incorrect_password">Неверный пароль</string>
     <string name="error_incorrect_email">Пользователь с указанным email не зарегистрирован</string>
+    <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
+    <string name="error_autorisation">При попытке авторизации произошла ошибка</string>
+    <string name="error_timeout">Превышено время ожидания...</string>
+
     <string name="action_sign_out">выход</string>
     <string name="prompt_user_name">имя пользователя</string>
     <string name="offline_container_not_found">OFFLINE\\nКонтейнер не найден</string>
-    <string name="error_zayavkaTEP_autorization">Для загрузки Заявки ТЭП необходимо авторизоваться.</string>
-    <string name="error_autorisation">При попытке авторизации произошла ошибка</string>
     <string name="main_radioButton_tram">фиксировать КД</string>
 </resources>

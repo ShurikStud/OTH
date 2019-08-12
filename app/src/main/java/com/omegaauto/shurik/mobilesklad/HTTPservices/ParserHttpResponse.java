@@ -74,13 +74,16 @@ public class ParserHttpResponse {
                                 fieldName = propertyAnno.apiName();
                             }
                             if (jsonObjectData.has(fieldName)){
+                                field.setAccessible(true);
                                 field.set(container, jsonObjectData.getString(fieldName));
                             }
                         } catch (IllegalAccessException e) {
+                            errorString = e.getMessage();
                             e.printStackTrace();
                         }
                     }
                 }
+
                 container.setNL();
 
                 return container;
